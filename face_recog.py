@@ -15,19 +15,19 @@ count=0
 
 ###########################code for face recognition started##############################
 
-print("[INFO]..........face recognition started") 
+#print("[INFO]..........face recognition started") 
 
 #frame = (video_capture, file)
 file = 'image.jpg'
 
 # load the picture whose face has to be recognised.
-tanmay_image = face_recognition.load_image_file("/home/pi/Desktop/face-rec/photos/tanmay.jpg")
+tanmay_image = face_recognition.load_image_file("/home/pi/Desktop/face-rec-sample/photos/tanmay.jpg")
 tanmay_face_encoding = face_recognition.face_encodings(tanmay_image)[0]
 
-varun_image = face_recognition.load_image_file("/home/pi/Desktop/face-rec/photos/varun.jpg")
+varun_image = face_recognition.load_image_file("/home/pi/Desktop/face-rec-sample/photos/varun.jpg")
 varun_face_encoding = face_recognition.face_encodings(varun_image)[0]
 
-amey_image = face_recognition.load_image_file("/home/pi/Desktop/face-rec/photos/amey.jpg")
+amey_image = face_recognition.load_image_file("/home/pi/Desktop/face-rec-sample/photos/amey.jpg")
 amey_face_encoding = face_recognition.face_encodings(amey_image)[0]
 
 # start your webcam
@@ -50,6 +50,15 @@ face_locations = []
 face_encodings = []
 face_names = []
 process_this_frame = True
+
+tanmay_string = 'Tanmay Kothale'
+varun_string = 'Varun Mehta'
+amey_string = 'Amey Dashaputre'
+
+tanmay_flag = False
+amey_flag = False
+varun_flag = False
+
 
 #fps = video_capture.get(cv2.CAP_PROP_FPS)
 #print("FPS: {0}".format(fps))
@@ -85,9 +94,33 @@ while True:
             
             if matches[best_match_index]:
                 name = known_face_names[best_match_index]
-
+                
                 face_names.append(name)
-                print(name)   
+                if not tanmay_flag:
+                    if best_match_index == 0:
+                        with open('names.txt','a') as f:
+                            f.write(name)
+                            f.write('\n')
+                            f.close()
+                        tanmay_flag = True
+                if not amey_flag:
+                    if best_match_index == 1:
+                        with open('names.txt','a') as f:
+                            f.write(name)
+                            f.write('\n')
+                            f.close()
+                        amey_flag = True
+                if not varun_flag:
+                    if best_match_index == 2:
+                        with open('names.txt','a') as f:
+                            f.write(name)
+                            f.write('\n')
+                            f.close()
+                        varun_flag = True
+                else:
+                    print("Already present!")
+                name = ''
+                #print(name)   
 
 
     process_this_frame = not process_this_frame
